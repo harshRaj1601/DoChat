@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, join_room, leave_room, send
+from flask import Flask, render_template, request, redirect, url_for
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
 import time
 import random
 import string
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, max_http_buffer_size = 100*1000*1000)
 
 # Store users in chatrooms
 users = {}
@@ -61,6 +61,15 @@ def handle_message(data):
     msg = data['message']
     timestamp = time.strftime('%I:%M %p', time.localtime())
     send({'username': username, 'msg': msg, 'time': timestamp}, to=room)
+
+@socketio.on('share_file')
+def handle_share_file(data):
+    room = data['room']
+    username = data['username']
+    file_data = data['file']
+    file_name = data['fileName']
+    timestamp = time.strftime('%I:%M %p', time.localtime())
+    emit('receive_file', {'username': username, 'file': file_data, 'fileName': file_name, "time": timestamp}, to=room)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)

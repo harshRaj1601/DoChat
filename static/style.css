@@ -197,6 +197,7 @@ body {
     color: white;
     padding: 10px 25px;
     border: none;
+    margin-right: 10px;
     border-radius: 50px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -251,4 +252,18 @@ body {
         padding: 10px 15px;
         font-size: 0.9rem;
     }
+}
+
+.file-share button {
+    background-color: #e94560;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.file-share button:hover {
+    background-color: #ff6f91;
 }
