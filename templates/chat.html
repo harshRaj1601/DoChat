@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoChat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>DoChat</h2>
+            <p>Room Key: {{ room }}</p> <!-- Display room key -->
+        </div>
+        
+        <div id="chat-messages" class="chat-messages">
+            <!-- Messages will be appended here -->
+        </div>
+
+        <div class="chat-input">
+            <input id="message-input" type="text" placeholder="Type a message..." autofocus>
+            <button id="send-button">Send</button>
+        </div>
+
+        <button id="leave-button">Leave Room</button> <!-- Leave Room button -->
+    </div>
+
+    <script>
+        const socket = io();
+        const room = "{{ room }}";
+        const username = "{{ username }}";
+
+        // Join the chatroom
+        socket.emit('join', { username: username, room: room });
+
+        // Handle incoming messages
+        socket.on('message', (data) => {
+            const chatMessages = document.getElementById('chat-messages');
+            const containerDiv = document.createElement("div");
+            const messageDiv = document.createElement('div');
+            const timeDiv = document.createElement('div');
+            const breakDiv = document.createElement("br");
+            containerDiv.classList.add("container");
+            chatMessages.appendChild(containerDiv);
+
+            if (data.username === username) {
+                messageDiv.classList.add('message', 'user');
+                timeDiv.classList.add("time-user")
+            } else if (data.username) {
+                messageDiv.classList.add('message', 'bot');
+                timeDiv.classList.add("time-bot")
+            } else {
+                messageDiv.classList.add('message', 'notification');
+            }
+
+            if (data.username === username){
+                messageDiv.innerHTML = `<p>${data.msg}</p>`;
+                timeDiv.innerHTML = `<span>${data.time}</span>`;
+                containerDiv.appendChild(timeDiv);
+                containerDiv.appendChild(messageDiv);
+            } else if (data.username) {
+                messageDiv.innerHTML = `<p><strong>${data.username}:</strong> ${data.msg}</p>`;
+                timeDiv.innerHTML = `<span>${data.time}</span>`;
+                containerDiv.appendChild(messageDiv);
+                containerDiv.appendChild(timeDiv);
+            } else {
+                messageDiv.innerHTML = `<p style="text-align:center">${data.msg}</p>`;
+                containerDiv.appendChild(messageDiv);
+            }
+            
+            
+            //chatMessages.appendChild(breakDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+
+        // Send message to the server
+        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('message-input');
+
+        // Function to split long messages
+        function splitMessage(str, maxWidth = 20) {
+            const words = str.split(' ');
+            let result = '';
+            let line = '';
+
+            for (let word of words) {
+                // Check if adding the next word would exceed the max width
+                if (line.length + word.length + 1 > maxWidth) {
+                    // If it does, push the current line to the result
+                    result += line.trim() + '\n'; // Trim to remove leading space
+                    line = ''; // Reset the line
+                }
+                line += word + ' '; // Add the word to the line
+            }
+
+            // Add any remaining text in the line
+            if (line) {
+                result += line.trim();
+            }
+
+            return result;
+        }
+        
+
+        sendButton.addEventListener('click', () => {
+            const msg = messageInput.value;
+            if (msg) {
+                const parts = splitMessage(msg);
+                socket.emit('message', { username: username, message: parts, room: room });
+                messageInput.value = '';  // Clear the input after sending
+            }
+        });
+
+        // Send message when Enter key is pressed
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        // Handle Leave Room
+        const leaveButton = document.getElementById('leave-button');
+        leaveButton.addEventListener('click', () => {
+            socket.emit('leave', { username: username, room: room });
+            window.location.href = '/';  // Redirect to homepage after leaving
+        });
+
+        // Notify when a user leaves the room
+        socket.on('user_left', (data) => {
+            const chatMessages = document.getElementById('chat-messages');
+            const notificationDiv = document.createElement('div');
+            notificationDiv.classList.add('message', 'notification');
+            notificationDiv.innerHTML = `<p><em>${data.username} has left the room.</em></p>`;
+            chatMessages.appendChild(notificationDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;  // Auto-scroll to the latest message
+        });
+    </script>
+</body>
+</html>

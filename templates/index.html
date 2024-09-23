@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoChat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="join-container">
+        <h1>DoChat</h1>
+        
+        <!-- Form to create a new chatroom -->
+        <form action="{{ url_for('create_room') }}" method="POST">
+            <input type="text" name="username" placeholder="Enter your name" required>
+            <button type="submit">Create Room</button>
+        </form>
+        
+        <p style="margin: 20px 0; font-size: 1.2rem; color: #00ffff;">or</p>
+        
+        <!-- Form to join an existing chatroom -->
+        <form action="{{ url_for('join_room_route') }}" method="POST">
+            <input type="text" name="username" placeholder="Enter your name" required>
+            <input type="text" name="room" placeholder="Enter room key" required>
+            <button type="submit">Join Room</button>
+        </form>
+    </div>
+</body>
+</html>

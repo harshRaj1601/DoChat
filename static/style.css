@@ -1,0 +1,254 @@
+/* Reset and Body Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0f0f1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+}
+
+/* Join/Create Room Page */
+.join-container {
+    background-color: #16213e;
+    border-radius: 15px;
+    padding: 40px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    margin: 20px;
+}
+
+.join-container h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #00ffff;
+}
+
+.join-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1rem;
+    background-color: #0f3460;
+    color: #00ffff;
+    border: 2px solid rgba(0, 255, 255, 0.5);
+}
+
+.join-container button {
+    background-color: #e94560;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.join-container button:hover {
+    background-color: #ff6f91;
+}
+
+/* Chatroom Styling */
+.chat-container {
+    background-color: #16213e;
+    border-radius: 15px;
+    padding: 20px;
+    width: 600px;
+    height: 700px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.chat-header {
+    color: #00ffff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.chat-header p {
+    font-size: 1rem;
+    color: #e94560;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #0f3460;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.container{
+    display: table;
+    width: 100%;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    position: relative;
+    max-width: 80%;
+    display: table-cell;
+    text-align: justify;
+    word-wrap: break-word;
+}
+
+/* Sender's messages aligned to the right */
+.message.user {
+    background-color: #e94560;
+    color: white;
+    margin-left: auto;
+    float: right;
+}
+
+/* Other users' messages */
+.message.bot {
+    background-color: #00ffff;
+    color: #16213e;
+    margin-right: auto;
+    float: left;
+}
+
+/* Message timestamps */
+.time-user {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    float: left;
+    opacity: 0.7;
+    color: white;
+    display: table-cell;
+    
+
+}
+
+.time-bot {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    float: right;
+    opacity: 0.7;
+    color: white;
+    display: table-cell;
+    
+}
+
+
+/* Notification messages (e.g., user join/leave) */
+.message.notification {
+    text-align: center;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Chat input and buttons */
+.chat-input {
+    display: flex;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #0f3460;
+    border-radius: 50px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    margin-right: 10px;
+    background-color: transparent;
+    color: #00ffff;
+    border: 2px solid rgba(0, 255, 255, 0.5);
+}
+
+.chat-input input::placeholder {
+    color: rgba(0, 255, 255, 0.6);
+}
+
+.chat-input button {
+    background-color: #e94560;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-input button:hover {
+    background-color: #ff6f91;
+}
+
+/* Leave Room button */
+#leave-button {
+    background-color: #e94560;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#leave-button:hover {
+    background-color: #ff6f91;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 90%;
+        height: 90vh;
+    }
+
+    .join-container {
+        width: 90%;
+    }
+
+    .chat-header {
+        font-size: 1.5rem;
+    }
+
+    .chat-messages {
+        padding: 15px;
+    }
+
+    .chat-input input {
+        padding: 10px;
+    }
+
+    .chat-input button, #leave-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
