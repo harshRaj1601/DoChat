@@ -5,7 +5,7 @@ import random
 import string
 
 app = Flask(__name__)
-socketio = SocketIO(app, max_http_buffer_size = 100*1000*1000)
+socketio = SocketIO(app, max_http_buffer_size = 1000*1000*1000)
 
 # Store users in chatrooms
 users = {}
